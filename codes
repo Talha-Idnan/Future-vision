@@ -17,4 +17,4 @@ git push
 for venv
 cd "G:\future vision"
 python -m venv ai_agent
-ai_agent\Scripts\activate
+ai_agent\Scripts\activate 
