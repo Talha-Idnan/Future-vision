@@ -1,0 +1,15 @@
+
+for commit
+git add .
+git commit -m "describe what you changed"
+git push
+
+to get leatest code
+git pull
+
+to update ai_agent venv
+
+pip freeze > requirements.txt
+git add .gitignore requirements.txt
+git commit -m "Add requirements and ignore venv"
+git push
