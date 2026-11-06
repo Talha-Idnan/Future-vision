@@ -13,3 +13,8 @@ pip freeze > requirements.txt
 git add .gitignore requirements.txt
 git commit -m "Add requirements and ignore venv"
 git push
+
+for venv
+cd "G:\future vision"
+python -m venv ai_agent
+ai_agent\Scripts\activate
