@@ -3,7 +3,6 @@ import cv2
 from ultralytics import YOLO
 from facenet_pytorch import MTCNN
 import torch
-
 import time
 
 # Device and models
@@ -100,3 +99,4 @@ while cap.isOpened():
 # Release resources after the loop ends
 cap.release()
 cv2.destroyAllWindows()
+
