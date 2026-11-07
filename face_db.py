@@ -21,21 +21,32 @@ import config
 
 
 class FaceDatabase:
+    # config.db means it is going in config file and looking for db file and using its path
     def __init__(self, path=config.DB_FILE):
         self.path = path
-        self.people = {}        # name -> numpy array (the averaged fingerprint)
+        # make empty dict 
+                # name -> numpy array (the averaged fingerprint)
+        self.people = {}
+        # use load function and fill people dict witha data from json file if exists 
         self.load()
 
     # ---------- saving and loading ----------
 
     def load(self):
         """Read the saved file from disk (if it exists)."""
+        # cheak if file exxist if not then it will exit whole load function due to return keword
         if not os.path.exists(self.path):
             return
+        # open the file read dat A INTO DATA as a python dict
         with open(self.path, "r", encoding="utf-8") as f:
             data = json.load(f)
+
         # JSON stores plain lists, so convert them back into numpy arrays
-        self.people = {name: np.array(vec, dtype=np.float32) for name, vec in data.items()}
+        # self.people = {name: np.array(vec, dtype=np.float32) for name, vec in data.items()}
+    # search for name and its value in data then convert it in to np array then whole in to people dict with name as key and np array as vale
+        for name, vec in data.items():
+            self.people[name] = np.array(vec, dtype=np.float32)
+            # prints basic statment obout how many people are loaded and their names
         print(f"Loaded {len(self.people)} known people: {', '.join(self.people) or 'none'}")
 
     def save(self):
