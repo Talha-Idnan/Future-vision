@@ -22,7 +22,8 @@ from collections import Counter, deque
 import cv2
 import numpy as np
 import torch
-from facenet_pytorch import MTCNN, IonnceptiResnetV1
+from facenet_pytorch import MTCNN
+from facenet_pytorch import InceptionResnetV1
 from ultralytics import YOLO
 
 from face_db import FaceDatabase
