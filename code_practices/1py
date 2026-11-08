@@ -1,0 +1,39 @@
+import numpy as np
+
+# STEP 1: Three fingerprints
+fingerprints = [
+    np.array([1, 2, 3, 4]),
+    np.array([2, 4, 6, 8]),
+    np.array([3, 6, 9, 12])
+]
+
+# STEP 2: Stack them
+stacked = np.stack(fingerprints)
+
+print("STACKED:")
+print(stacked)
+print("Shape:", stacked.shape)
+
+# STEP 3: Calculate average
+average = stacked.mean(axis=0)
+
+print("\nAVERAGE:")
+print(average)
+print("Shape:", average.shape)
+
+# STEP 4: Calculate length
+length = np.linalg.norm(average)
+
+print("\nLENGTH:")
+print(length)
+
+# STEP 5: Normalize
+average /= length
+
+print("\nNORMALIZED:")
+print(average)
+print("Shape:", average.shape)
+
+# STEP 6: Check final length
+print("\nFINAL LENGTH:")
+print(np.linalg.norm(average))
