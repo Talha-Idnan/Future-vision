@@ -1,0 +1,365 @@
+# COMPUTER VISION MASTERY COURSE
+## Student Learning Profile & Complete Progress Handoff
+
+**Purpose:** Transfer my learning progress, project knowledge, teaching preferences, and course roadmap to a new ChatGPT conversation.
+
+**Last updated:** 7 November 2026
+
+---
+
+# 1. MY MAIN GOAL
+
+I'm learning Python and Computer Vision through an actual working project.
+
+My ultimate goal is NOT just to understand what individual lines of code do.
+
+I want to:
+
+- Understand every important part of my project.
+- Know why each line of code exists.
+- Understand how different functions and files communicate.
+- Modify existing code independently.
+- Add new features.
+- Debug errors without depending entirely on ChatGPT.
+- Eventually rebuild the project myself.
+
+I want to develop genuine programming skills through hands-on practice.
+
+**The teacher's responsibility:** Help me become independent, not dependent on explanations.
+
+---
+
+# 2. MY PROJECT
+
+**Project name:** Future Vision
+
+**Main files:**
+- `main.py`
+- `face_db.py`
+- `config.py` / configuration settings
+- `faces/database.json`
+
+The project combines face recognition and general object detection.
+
+### What the project does
+
+1. Captures frames from a webcam using OpenCV.
+2. Detects faces using MTCNN.
+3. Crops detected faces.
+4. Converts faces into 512-dimensional numerical fingerprints using FaceNet's InceptionResnetV1.
+5. Compares fingerprints with previously saved people.
+6. Identifies known people or returns Unknown.
+7. Uses YOLO to detect general objects.
+8. Displays bounding boxes and labels.
+9. Uses LabelSmoother to reduce flickering recognition labels.
+
+### Main libraries
+
+- Python
+- OpenCV (`cv2`)
+- NumPy
+- PyTorch
+- facenet-pytorch
+- Ultralytics YOLO
+- JSON
+- OS
+- Collections (`Counter`, `deque`)
+
+---
+
+# 3. HOW THE TWO MAIN FILES WORK
+
+## A. face_db.py
+
+This file manages the database of known people.
+
+Its main class is:
+
+`FaceDatabase`
+
+Main responsibilities:
+
+| Method | Purpose |
+|---|---|
+| `__init__()` | Initialize the database object |
+| `load()` | Load saved people from JSON |
+| `save()` | Save people to JSON |
+| `add_person()` | Average fingerprints and add a person |
+| `delete_person()` | Remove a person |
+| `names()` | Return known people's names |
+| `identify()` | Find the closest matching fingerprint |
+
+The database stores one averaged 512-number fingerprint per person.
+
+## B. main.py
+
+This is the main application.
+
+Its major components are:
+
+| Component | Responsibility |
+|---|---|
+| Configuration | Camera, thresholds, model settings |
+| PyTorch device | Select CPU or CUDA |
+| MTCNN | Detect faces |
+| InceptionResnetV1 | Generate face fingerprints |
+| YOLO | Detect general objects |
+| `make_fingerprint()` | Convert a face image into a normalized embedding |
+| `crop_face()` | Crop a face from the frame |
+| `draw_box()` | Draw bounding boxes and labels |
+| `LabelSmoother` | Reduce label flickering |
+| `find_faces()` | Detect and identify faces |
+| `draw_objects()` | Run YOLO and draw object detections |
+| `main()` | Run the webcam processing loop |
+
+Keyboard controls:
+
+- `c`: Capture a face snapshot.
+- `n`: Register a new person.
+- `d`: Delete a person.
+- `q`: Quit.
+
+---
+
+# 4. MY LEARNING PROGRESS
+
+This section is extremely important. Do not make me repeat everything I have already learned.
+
+## Phase 1 — Python OOP Foundations
+
+### 1. Classes and Objects
+
+**Status: Learned and practised.**
+
+I understand:
+
+- A class is a blueprint for creating objects.
+- An object is an instance of a class.
+- Multiple objects can be created from one class.
+
+Example:
+
+```python
+db1 = FaceDatabase()
+db2 = FaceDatabase()
+```
+
+`db1` and `db2` are separate objects.
+
+### 2. The `__init__()` Method
+
+**Status: Learned.**
+
+I understand:
+
+- `__init__()` is automatically called when an object is initialized.
+- It initializes the object's attributes.
+- It can accept parameters.
+
+Example:
+
+```python
+def __init__(self, path=config.DB_FILE):
+    self.path = path
+    self.people = {}
+```
+
+### 3. Understanding `self`
+
+**Status: Learned and demonstrated.**
+
+I understand that `self` refers to the current object.
+
+For example:
+
+```python
+self.path = path
+self.people = {}
+```
+
+Conceptually, when the object is `db1`, these attributes belong to `db1`.
+
+When another object is initialized, it receives its own instance attributes.
+
+Important clarification:
+
+`self` does not always mean the first object. It means whichever object is currently executing the method.
+
+### 4. Instance Attributes
+
+**Status: Learned and practised.**
+
+Example:
+
+```python
+db1.people["Ali"] = [1, 2, 3]
+```
+
+I understand that:
+
+- `db1` selects the object.
+- `.people` accesses its dictionary.
+- `"Ali"` is the dictionary key.
+- `[1, 2, 3]` is its value.
+
+Each object initialized with `self.people = {}` gets its own dictionary.
+
+### 5. Multiple Objects
+
+**Status: Learned and demonstrated.**
+
+Example:
+
+```python
+db1 = FaceDatabase()
+db2 = FaceDatabase()
+
+db1.people["Ali"] = [1, 2, 3]
+
+print(db1.people)
+print(db2.people)
+```
+
+The first dictionary contains Ali, while the second remains empty, assuming no saved data is loaded into it.
+
+I understand why this happens.
+
+### 6. Calling Methods Using `self`
+
+**Status: Learned and tested.**
+
+Example:
+
+```python
+self.load()
+```
+
+I understand that this calls the `load()` method belonging to the current object.
+
+The method can access and modify that same object's attributes.
+
+I successfully answered a quiz where `load()` added Ali to `self.people`, and both the print inside the method and `db.people` outside showed the updated dictionary.
+
+### 7. Default Parameters
+
+**Status: Learned.**
+
+Example:
+
+```python
+def __init__(self, path=config.DB_FILE):
+```
+
+I understand:
+
+- `path` is a parameter.
+- `config.DB_FILE` is its default value.
+- `FaceDatabase()` uses the default.
+- `FaceDatabase("test.json")` supplies a custom path.
+
+I also understand the difference between:
+
+- `config.DB_FILE`: Variable from the configuration module.
+- `path`: Function parameter.
+- `self.path`: Attribute stored in the object.
+
+---
+
+# 5. PHASE 2 — FaceDatabase and JSON
+
+**Current status: The complete `load()` method has been studied.**
+
+I studied this method in detail, including its individual statements.
+
+```python
+def load(self):
+    if not os.path.exists(self.path):
+        return
+
+    with open(self.path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    self.people = {
+        name: np.array(vec, dtype=np.float32)
+        for name, vec in data.items()
+    }
+```
+
+### Concepts already learned
+
+**1. `os.path.exists(self.path)`**
+
+Checks whether the specified file path exists.
+
+Returns `True` or `False`.
+
+It does not create or read the file.
+
+**2. `return`**
+
+Immediately exits the current function or method.
+
+Here, it prevents Python from trying to read a database file that does not exist.
+
+**3. `with open(self.path, "r", encoding="utf-8") as f`**
+
+I understand:
+
+- `open()` opens the file.
+- `self.path` specifies which file.
+- `"r"` means read mode.
+- `encoding="utf-8"` specifies text encoding.
+- `f` represents the opened file object.
+- `with` automatically closes the file when the block finishes.
+
+**4. `json.load(f)`**
+
+Reads JSON data from an opened file.
+
+For example, if JSON contains:
+
+```json
+{
+    "Ali": [1, 2, 3]
+}
+```
+
+Then:
+
+```python
+data = json.load(f)
+```
+
+Produces:
+
+```python
+data = {"Ali": [1, 2, 3]}
+```
+
+I understand the difference:
+
+- `json.load(f)` reads from a file.
+- `json.loads(text)` reads from a string.
+
+**5. `data.items()`**
+
+Returns the dictionary's key-value pairs.
+
+Example:
+
+```python
+data = {"Ali": [1, 2, 3]}
+
+for name, vec in data.items():
+    print(name, vec)
+```
+
+Here:
+
+- `name` receives `"Ali"`.
+- `vec` receives `[1, 2, 3]`.
+
+**6. NumPy conversion**
+
+```python
+np.array(vec

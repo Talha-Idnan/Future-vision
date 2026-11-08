@@ -1,0 +1,49 @@
+10–20 minutes
+ Beginner level
+
+Project: Student Database Manager
+What you will build
+A program that can:
+1. Create student objects.
+2. Store each student's name and age.
+3. Maintain a separate dictionary for each database object.
+4. Add students to the database.
+5. Display all students.
+Your coding task
+Create a Python file called student_database.py.
+
+Start with this structure:
+class StudentDatabase:    def __init__(self, database_name="default"):        # TODO 1: Store database_name        # TODO 2: Create an empty students dictionary    def add_student(self, name, age):        # TODO 3: Add student to self.students    def show_students(self):        # TODO 4: Display all students
+
+
+
+Expected behaviour
+Your program should support this:
+db1 = StudentDatabase("Class A")db2 = StudentDatabase("Class B")db1.add_student("Ali", 20)db1.add_student("Ahmed", 22)db2.add_student("Sara", 19)db1.show_students()db2.show_students()
+
+
+
+Expected output:
+Database: Class A
+Ali: 20
+Ahmed: 22
+
+Database: Class B
+Sara: 19
+
+
+Rules
+- Use a class.
+- Use __init__().
+- Use self.
+- Use instance attributes.
+- Use default parameters.
+- Create two separate objects.
+- Use methods to add and display students.
+Don't copy a solution from the internet. Write it yourself.
+Test your understanding
+After completing the code, answer these three questions:
+1. Why does db1 have its own dictionary and db2 have another?
+2. What happens if you write self.students = {} inside __init__()?
+3. If you call db1.add_student("Ali", 20), which object's dictionary gets updated, and why?
+Send me your complete code and answers. I'll review them like a programming teacher, point out mistakes, and give you the next challen
