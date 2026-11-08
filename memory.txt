@@ -1,275 +1,146 @@
 # COMPUTER VISION MASTERY COURSE
-## Student Learning Profile & Complete Progress Handoff
+## Student Learning Progress & Handoff Memory
 
-**Purpose:** Transfer my learning progress, project knowledge, teaching preferences, and course roadmap to a new ChatGPT conversation.
+**Last updated:** 8 November 2026
 
-**Last updated:** 7 November 2026
+### 1. My Main Goal
 
----
+I'm learning Python and Computer Vision through my project, **Future Vision**.
 
-# 1. MY MAIN GOAL
-
-I'm learning Python and Computer Vision through an actual working project.
-
-My ultimate goal is NOT just to understand what individual lines of code do.
-
-I want to:
-
-- Understand every important part of my project.
-- Know why each line of code exists.
-- Understand how different functions and files communicate.
+My goal is to become an independent programmer who can:
+- Understand why code exists.
+- Understand how functions, classes, and files communicate.
 - Modify existing code independently.
 - Add new features.
-- Debug errors without depending entirely on ChatGPT.
-- Eventually rebuild the project myself.
+- Debug errors myself.
+- Eventually rebuild my project without depending on ChatGPT.
 
-I want to develop genuine programming skills through hands-on practice.
+### 2. My Project: Future Vision
 
-**The teacher's responsibility:** Help me become independent, not dependent on explanations.
+My project combines face recognition and general object detection.
 
----
-
-# 2. MY PROJECT
-
-**Project name:** Future Vision
-
-**Main files:**
+Main files:
 - `main.py`
 - `face_db.py`
-- `config.py` / configuration settings
+- `config.py`
 - `faces/database.json`
 
-The project combines face recognition and general object detection.
-
-### What the project does
-
-1. Captures frames from a webcam using OpenCV.
-2. Detects faces using MTCNN.
-3. Crops detected faces.
-4. Converts faces into 512-dimensional numerical fingerprints using FaceNet's InceptionResnetV1.
-5. Compares fingerprints with previously saved people.
-6. Identifies known people or returns Unknown.
-7. Uses YOLO to detect general objects.
-8. Displays bounding boxes and labels.
-9. Uses LabelSmoother to reduce flickering recognition labels.
-
-### Main libraries
-
+Main technologies:
 - Python
-- OpenCV (`cv2`)
+- OpenCV
 - NumPy
 - PyTorch
-- facenet-pytorch
-- Ultralytics YOLO
+- MTCNN
+- FaceNet
+- YOLO
 - JSON
-- OS
-- Collections (`Counter`, `deque`)
+
+The project detects faces, generates 512-dimensional face fingerprints, identifies known people, detects general objects, and displays results using bounding boxes and labels.
 
 ---
 
-# 3. HOW THE TWO MAIN FILES WORK
-
-## A. face_db.py
-
-This file manages the database of known people.
-
-Its main class is:
-
-`FaceDatabase`
-
-Main responsibilities:
-
-| Method | Purpose |
-|---|---|
-| `__init__()` | Initialize the database object |
-| `load()` | Load saved people from JSON |
-| `save()` | Save people to JSON |
-| `add_person()` | Average fingerprints and add a person |
-| `delete_person()` | Remove a person |
-| `names()` | Return known people's names |
-| `identify()` | Find the closest matching fingerprint |
-
-The database stores one averaged 512-number fingerprint per person.
-
-## B. main.py
-
-This is the main application.
-
-Its major components are:
-
-| Component | Responsibility |
-|---|---|
-| Configuration | Camera, thresholds, model settings |
-| PyTorch device | Select CPU or CUDA |
-| MTCNN | Detect faces |
-| InceptionResnetV1 | Generate face fingerprints |
-| YOLO | Detect general objects |
-| `make_fingerprint()` | Convert a face image into a normalized embedding |
-| `crop_face()` | Crop a face from the frame |
-| `draw_box()` | Draw bounding boxes and labels |
-| `LabelSmoother` | Reduce label flickering |
-| `find_faces()` | Detect and identify faces |
-| `draw_objects()` | Run YOLO and draw object detections |
-| `main()` | Run the webcam processing loop |
-
-Keyboard controls:
-
-- `c`: Capture a face snapshot.
-- `n`: Register a new person.
-- `d`: Delete a person.
-- `q`: Quit.
-
----
-
-# 4. MY LEARNING PROGRESS
-
-This section is extremely important. Do not make me repeat everything I have already learned.
+### 3. What I Have Learned
 
 ## Phase 1 — Python OOP Foundations
 
-### 1. Classes and Objects
-
 **Status: Learned and practised.**
 
-I understand:
+#### A. Classes and Objects
 
+I understand:
 - A class is a blueprint for creating objects.
 - An object is an instance of a class.
 - Multiple objects can be created from one class.
 
 Example:
-
 ```python
 db1 = FaceDatabase()
 db2 = FaceDatabase()
 ```
 
-`db1` and `db2` are separate objects.
-
-### 2. The `__init__()` Method
-
-**Status: Learned.**
+#### B. `__init__()`
 
 I understand:
-
-- `__init__()` is automatically called when an object is initialized.
+- `__init__()` runs automatically when an object is initialized.
 - It initializes the object's attributes.
-- It can accept parameters.
+- It can receive parameters.
 
 Example:
-
 ```python
 def __init__(self, path=config.DB_FILE):
     self.path = path
     self.people = {}
 ```
 
-### 3. Understanding `self`
+#### C. `self`
 
-**Status: Learned and demonstrated.**
-
-I understand that `self` refers to the current object.
+I understand that `self` refers to the current object executing a method.
 
 For example:
-
 ```python
 self.path = path
 self.people = {}
 ```
 
-Conceptually, when the object is `db1`, these attributes belong to `db1`.
+These attributes belong to the current object.
 
-When another object is initialized, it receives its own instance attributes.
+#### D. Instance Attributes
 
-Important clarification:
-
-`self` does not always mean the first object. It means whichever object is currently executing the method.
-
-### 4. Instance Attributes
-
-**Status: Learned and practised.**
+I understand how to access and modify object attributes.
 
 Example:
-
 ```python
 db1.people["Ali"] = [1, 2, 3]
 ```
-
-I understand that:
 
 - `db1` selects the object.
 - `.people` accesses its dictionary.
 - `"Ali"` is the dictionary key.
 - `[1, 2, 3]` is its value.
 
-Each object initialized with `self.people = {}` gets its own dictionary.
+Each object gets its own dictionary when initialized with `self.people = {}`.
 
-### 5. Multiple Objects
+#### E. Multiple Objects
 
-**Status: Learned and demonstrated.**
+I understand that separate objects have separate instance attributes.
 
-Example:
+I practised this using two `FaceDatabase` objects and successfully explained why modifying one object's dictionary does not automatically modify the other's.
 
-```python
-db1 = FaceDatabase()
-db2 = FaceDatabase()
+#### F. Calling Methods Using `self`
 
-db1.people["Ali"] = [1, 2, 3]
-
-print(db1.people)
-print(db2.people)
-```
-
-The first dictionary contains Ali, while the second remains empty, assuming no saved data is loaded into it.
-
-I understand why this happens.
-
-### 6. Calling Methods Using `self`
-
-**Status: Learned and tested.**
-
-Example:
-
+I understand:
 ```python
 self.load()
 ```
 
-I understand that this calls the `load()` method belonging to the current object.
+This calls the `load()` method belonging to the current object.
 
-The method can access and modify that same object's attributes.
+The method can access and modify that object's attributes.
 
-I successfully answered a quiz where `load()` added Ali to `self.people`, and both the print inside the method and `db.people` outside showed the updated dictionary.
+I successfully completed a quiz demonstrating how changes made inside `load()` are visible outside the method through `db.people`.
 
-### 7. Default Parameters
+#### G. Default Parameters
 
-**Status: Learned.**
-
-Example:
-
+I understand:
 ```python
 def __init__(self, path=config.DB_FILE):
 ```
 
-I understand:
-
 - `path` is a parameter.
 - `config.DB_FILE` is its default value.
 - `FaceDatabase()` uses the default.
-- `FaceDatabase("test.json")` supplies a custom path.
+- `FaceDatabase("test.json")` supplies a custom value.
+- `self.path` stores the value inside the object.
 
-I also understand the difference between:
-
-- `config.DB_FILE`: Variable from the configuration module.
-- `path`: Function parameter.
-- `self.path`: Attribute stored in the object.
+I understand the difference between a module variable, a function parameter, and an instance attribute.
 
 ---
 
-# 5. PHASE 2 — FaceDatabase and JSON
+## Phase 2 — FaceDatabase and JSON
 
-**Current status: The complete `load()` method has been studied.**
+**Status: `load()` method studied in detail.**
 
-I studied this method in detail, including its individual statements.
+I have studied the complete `load()` method:
 
 ```python
 def load(self):
@@ -285,38 +156,45 @@ def load(self):
     }
 ```
 
-### Concepts already learned
+### A. Checking Whether a File Exists
 
-**1. `os.path.exists(self.path)`**
+```python
+os.path.exists(self.path)
+```
 
-Checks whether the specified file path exists.
+- Checks whether the specified path exists.
+- Returns `True` or `False`.
+- Does not create or read the file.
 
-Returns `True` or `False`.
+### B. `return`
 
-It does not create or read the file.
+I understand that `return` immediately exits the current function or method.
 
-**2. `return`**
+Here, it prevents Python from attempting to read a nonexistent database file.
 
-Immediately exits the current function or method.
+### C. Opening a File
 
-Here, it prevents Python from trying to read a database file that does not exist.
-
-**3. `with open(self.path, "r", encoding="utf-8") as f`**
+```python
+with open(self.path, "r", encoding="utf-8") as f:
+```
 
 I understand:
-
-- `open()` opens the file.
-- `self.path` specifies which file.
+- `open()` opens a file.
+- `self.path` specifies the file location.
 - `"r"` means read mode.
 - `encoding="utf-8"` specifies text encoding.
 - `f` represents the opened file object.
-- `with` automatically closes the file when the block finishes.
+- `with` automatically closes the file after the block finishes.
 
-**4. `json.load(f)`**
+### D. Reading JSON
 
-Reads JSON data from an opened file.
+```python
+data = json.load(f)
+```
 
-For example, if JSON contains:
+I understand that `json.load()` reads JSON data from an opened file and stores the resulting Python data in `data`.
+
+Example JSON:
 
 ```json
 {
@@ -324,26 +202,25 @@ For example, if JSON contains:
 }
 ```
 
-Then:
-
-```python
-data = json.load(f)
-```
-
-Produces:
+Result:
 
 ```python
 data = {"Ali": [1, 2, 3]}
 ```
 
-I understand the difference:
+I also understand:
+- `json.load(f)` reads JSON from a file.
+- `json.loads(text)` reads JSON from a string.
 
-- `json.load(f)` reads from a file.
-- `json.loads(text)` reads from a string.
+### E. Dictionary `.items()`
 
-**5. `data.items()`**
+I understand:
 
-Returns the dictionary's key-value pairs.
+```python
+data.items()
+```
+
+It provides dictionary key-value pairs.
 
 Example:
 
@@ -354,12 +231,100 @@ for name, vec in data.items():
     print(name, vec)
 ```
 
-Here:
+- `name` receives the dictionary key.
+- `vec` receives the corresponding value.
 
-- `name` receives `"Ali"`.
-- `vec` receives `[1, 2, 3]`.
-
-**6. NumPy conversion**
+### F. NumPy Array Conversion
 
 ```python
-np.array(vec
+np.array(vec, dtype=np.float32)
+```
+
+I understand:
+- `np.array()` converts data into a NumPy array.
+- `vec` is the data being converted.
+- `dtype=np.float32` specifies the numerical data type.
+- `np.float32` stores numbers using 32-bit floating-point precision.
+
+### G. Dictionary Comprehension
+
+I studied this code:
+
+```python
+self.people = {
+    name: np.array(vec, dtype=np.float32)
+    for name, vec in data.items()
+}
+```
+
+I understand that it creates a new dictionary by looping through the existing dictionary.
+
+The process:
+1. `data.items()` provides key-value pairs.
+2. `name` receives a person's name.
+3. `vec` receives that person's fingerprint.
+4. `np.array()` converts the fingerprint into a NumPy array.
+5. `name:` becomes the key in the new dictionary.
+6. The converted array becomes its value.
+7. The completed dictionary is assigned to `self.people`.
+
+I also practised understanding how to convert comprehension code into a normal `for` loop so I can understand and write it more easily.
+
+---
+
+### 4. What I Have Not Yet Mastered
+
+Do not assume that I understand every method simply because I have seen it in my project.
+
+The following topics still need detailed teaching and practical exercises:
+
+- `save()` method.
+- `add_person()` method.
+- `delete_person()` method.
+- `names()` method.
+- `identify()` method.
+- How face fingerprints are averaged.
+- How NumPy arrays are compared.
+- How the different files communicate.
+- How the main webcam loop works.
+- MTCNN and FaceNet processing.
+- YOLO object detection.
+- `LabelSmoother`.
+- Debugging and independent project modifications.
+
+---
+
+### 5. My Teaching Preferences
+
+These instructions are extremely important.
+
+1. Teach slowly, one concept at a time.
+2. Explain WHY code exists, not just WHAT it does.
+3. Use simple examples before introducing actual project code.
+4. Explain complicated code line by line.
+5. Convert difficult one-line expressions into normal code when helpful.
+6. Give me short quizzes to check understanding.
+7. Wait for my answers before moving forward.
+8. Correct my misunderstandings rather than simply giving me the answer.
+9. Never rush or overwhelm me.
+10. Create concise Obsidian notes after important learning milestones.
+
+**Most importantly:** Do not make me memorize code. Help me understand the logic so I can write it independently.
+
+---
+
+### 6. Where the Next ChatGPT Conversation Should Continue
+
+Continue from the `FaceDatabase.load()` method.
+
+The next recommended lesson is:
+
+**Understanding the dictionary comprehension in `load()` by converting it into a normal `for` loop and practising writing it independently.**
+
+After confirming my understanding, continue to the next method: `save()`.
+
+Do not restart the OOP lessons or repeat the concepts I have already demonstrated that I understand.
+
+### Final Teaching Mission
+
+Help me become the programmer who can look at unfamiliar code, understand its purpose, explain its logic, modify it, and eventually build the entire Future Vision project independently.

@@ -317,3 +317,34 @@ Try answering these without looking at the notes:
 **Many snapshots → One average fingerprint → Normalize → Store → Save to JSON.**
 
 The goal is not to memorize these lines. The goal is to understand what each step does and why the program needs it.
+## 📐 NumPy Array Shapes — Quick Notes
+
+- `(4,)` → 1D array containing 4 values. No rows/columns dimension.
+- `(1, 4)` → 2D array containing 1 row and 4 columns.
+- `(3, 4)` → 2D array containing 3 rows and 4 columns.
+
+### How `np.stack()` works
+
+Each input fingerprint becomes one row.
+
+```python
+np.stack([
+    [1, 2, 3, 4],
+    [2, 4, 6, 8],
+    [3, 6, 9, 12]
+])
+```
+
+Shape: `(3, 4)` → 3 fingerprints × 4 values each.
+
+### How `mean(axis=0)` works
+
+`axis=0` averages down the rows, column by column.
+
+```text
+(3, 4) → mean(axis=0) → (4,)
+```
+
+Result: `[2, 4, 6, 8]`
+
+**Remember:** The comma in `(4,)` indicates a one-dimensional shape. It does not mean an empty column.
