@@ -1,0 +1,11 @@
+weak :
+
+in cofig file line 26
+learn how intersecept cnn and vigfac2 works learn them totally
+
+
+
+line 121 of facee_db 
+  dist = float(np.linalg.norm(fingerprint - stored))
+  learn this to 
+

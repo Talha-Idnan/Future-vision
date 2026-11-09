@@ -42,3 +42,19 @@ json.dump(data, f, indent=2)
 
 ## 3. Key Takeaway
 The `save()` method ensures the folder exists, converts NumPy fingerprints into JSON-compatible lists, and saves the entire `self.people` dictionary into `database.json`.
+
+### L2 Normalization
+L2 normalization makes the **length (magnitude) of an entire vector equal to 1**.
+
+- Square every value.
+- Add all squared values.
+- Take the square root (L2 norm).
+- Divide every vector value by that norm.
+
+**Formula:**
+
+\[
+\text{Normalized Vector}=\frac{\text{Vector}}{\text{L2 Norm}}
+\]
+
+In our `face_db.py`, it ensures every averaged face fingerprint has a consistent length of 1, making fingerprint comparisons more meaningful.

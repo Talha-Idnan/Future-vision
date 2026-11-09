@@ -125,3 +125,27 @@ class FaceDatabase:
         if best_dist <= config.MATCH_THRESHOLD:
             return best_name, best_dist
         return "Unknown", best_dist
+
+
+
+
+    # function make by my own jus t for fun 
+    
+       # Check whether the given name exists as a key in the people dictionary.
+    # Return True if it exists, otherwise False.
+
+    # def person_exists(self, name):
+    #     if name in self.people:
+    #         return True
+    #     return False
+
+    # function make by my own jus t for fun 
+
+      # Check whether the person exists in the database.
+    # If found, return their fingerprint (dictionary value).
+    # Otherwise, return None.
+
+    # def get_fingerprint(self, name):
+    #     if name in self.people:
+    #         return self.people[name]
+    #     return None
