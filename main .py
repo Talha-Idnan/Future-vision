@@ -15,7 +15,7 @@ Keys while the window is active:
   d = delete a person (type a name in the terminal)
   q = quit
 """
-
+# -----------------------------------------imports---------------------------------------------
 import time
 from collections import Counter, deque
 
@@ -28,8 +28,8 @@ from ultralytics import YOLO
 
 from face_db import FaceDatabase
 from types import SimpleNamespace
-
-
+# -----------------------------------------import end s---------------------------------------------
+# ----------------------------------------- configs / settings-----------------------------------------------
 config = SimpleNamespace(
     # Camera
     CAMERA_INDEX=0,
@@ -57,31 +57,45 @@ config = SimpleNamespace(
     DB_FILE="faces/database.json",
 )
 
+# ----------------------------------------- configs / settings end -----------------------------------------------
+# -------------------------------------------initialization ---------------------------------------------------
+
 
 # ==============================================================
 # 1. Load devices and models (once, before the camera starts)
 # ==============================================================
-
+# selection gpu if available otherwise cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
+
 # Model A: finds WHERE faces are. Returns boxes and confidence scores.
+# its dectectetor for dectection faces keep_all = true means dectect all faces in the image other wise it will only dectect 1
+    # second parametre tells the which device to use for dect
 face_detector = MTCNN(keep_all=True, device=device)
 
 # Model B: turns a face image into a fingerprint of 512 numbers. Tells us WHO.
+# pretrained paraetre tells which pretrained weights ti use 
+# this incepet class comes with to modes .train and .eval train to train model more we wand to use so we will evaluare it
+# to device tells which device to use for erforming calculations
 face_encoder = InceptionResnetV1(pretrained=config.RECOGNITION_MODEL).eval().to(device)
 
 # Model C: YOLO, finds general objects (cup, phone, chair, and so on).
 object_detector = YOLO(config.YOLO_MODEL_PATH)
 
 # The saved album of known people.
+# class init function so load function automatically runs it have all the stored people in json file 
+# and now we can use multiple function of this class
 db = FaceDatabase()
 
+
 # Colors are BGR (OpenCV's order, which is blue-green-red, not red-green-blue).
+# They store colors that we will use when drawing rectangles and labels on the webcam frame.
 COLOR_KNOWN = (120, 200, 0)     # green-ish: recognized person
 COLOR_UNKNOWN = (60, 60, 230)   # red-ish: face we don't know
 COLOR_OBJECT = (255, 160, 0)    # blue-ish: YOLO object
 
+# -------------------------------------------initialization end  ---------------------------------------------------
 
 # ==============================================================
 # 2. Helper functions
@@ -89,17 +103,21 @@ COLOR_OBJECT = (255, 160, 0)    # blue-ish: YOLO object
 
 def make_fingerprint(face_bgr):
     """Convert one face image into a normalized list of 512 numbers."""
+    # rgb is a numpy kind of array
     rgb = cv2.cvtColor(face_bgr, cv2.COLOR_BGR2RGB)       # OpenCV BGR -> RGB for the model
     rgb = cv2.resize(rgb, (160, 160))                      # the model expects 160x160 pixels
 
     # Image -> tensor (a PyTorch array). HWC (height, width, color) -> CHW (color, height, width).
+    # its value ranges fron 0,255but our model expects between 1 and -1 so we convert it 
     tensor = torch.from_numpy(rgb).permute(2, 0, 1).float()
     tensor = (tensor - 127.5) / 128.0                      # scale pixel values to about -1 to 1
-
+# no grand means to gradient changings no weights chaning we are evaluating so every thids inside this with is evaluAYING
     with torch.no_grad():                                  # inference only, no learning
+        # TENSER ,UNSqus=ze(0) make a batch dimentions converting  3 d img to 4d i have to leqrn thins concept 
         embedding = face_encoder(tensor.unsqueeze(0).to(device))[0]
-
+# give array to cpu memory cuz numpy works with cpu and then convert it in to nukmby
     embedding = embedding.cpu().numpy()
+    # l2 normalazation you can see i nnotes
     return embedding / np.linalg.norm(embedding)           # scale so the length is exactly 1
 
 
