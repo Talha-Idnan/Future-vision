@@ -123,10 +123,14 @@ def make_fingerprint(face_bgr):
 
 def crop_face(frame, box, margin=0.15):
     """Cut the face out of the frame, with a small margin so hair and chin are included."""
+    # frame,shape meanns get height and weidht of img like if itds 640 * 480
     h, w = frame.shape[:2]
+    # int will convert every cordinate into interger
     x1, y1, x2, y2 = map(int, box)
+    # means multiply the weidth of face (x2-x1) by marginn same for the height
     pad_x = int((x2 - x1) * margin)
     pad_y = int((y2 - y1) * margin)
+    # it will not get value below 0 i will not go outside of image
     x1, y1 = max(0, x1 - pad_x), max(0, y1 - pad_y)        # never go outside the image
     x2, y2 = min(w, x2 + pad_x), min(h, y2 + pad_y)
     return frame[y1:y2, x1:x2]
@@ -135,7 +139,9 @@ def crop_face(frame, box, margin=0.15):
 def draw_box(img, box, text, color):
     """Draw a thin rectangle and a small filled label bar above it (clean, modern look)."""
     x1, y1, x2, y2 = map(int, box)
+    # last parametre 2 means border thickness how ever thicknesss of -1 means fill the whole rectangele
     cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+    # testw test h gets returned value but 1 other value is also returned by function that we dont want so In Python, _ is commonly used when we don't need a returned value
     (text_w, text_h), _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
     top = max(0, y1 - text_h - 12)
     cv2.rectangle(img, (x1, top), (x1 + text_w + 10, y1), color, -1)   # filled label bar
